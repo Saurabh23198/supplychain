@@ -1,0 +1,1223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Metayb Strategy - Tolaram AI Supply Chain Transformation</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Space Grotesk, Plus Jakarta Sans, JetBrains Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,600;1,400&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    <!-- Lucide Icons CDN -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            bg: '#030712',
+                            canvas: '#080d1a',
+                            border: '#1e293b',
+                            cyan: '#38bdf8',
+                            cyanGlow: 'rgba(56, 189, 248, 0.25)',
+                            emerald: '#34d399',
+                            emeraldGlow: 'rgba(52, 211, 153, 0.25)',
+                            gold: '#fbbf24',
+                            purple: '#c084fc',
+                            slateMuted: '#64748b',
+                            darkSurface: '#0f172a',
+                        }
+                    },
+                    fontFamily: {
+                        heading: ['Space Grotesk', 'sans-serif'],
+                        body: ['Plus Jakarta Sans', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        body {
+            background-color: #030712;
+            color: #f8fafc;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            overflow: hidden;
+            margin: 0;
+            padding: 0;
+            user-select: none;
+        }
+
+        /* Fixed Widescreen Presentation Canvas Wrapper */
+        .stage-container {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: radial-gradient(circle at 50% 50%, #0b1329 0%, #030712 100%);
+            position: relative;
+        }
+
+        .slide-canvas {
+            width: 1280px;
+            height: 720px;
+            background-color: #080d1a;
+            border: 1px solid #1e293b;
+            border-radius: 12px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.85), 0 0 35px rgba(56, 189, 248, 0.08);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transform-origin: center center;
+            transition: transform 0.2s ease-out;
+        }
+
+        /* Executive Glass Card Styling */
+        .glass-card {
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.75) 0%, rgba(8, 13, 26, 0.9) 100%);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(30, 41, 59, 0.8);
+            border-radius: 8px;
+        }
+
+        .glass-card-hover:hover {
+            border-color: rgba(56, 189, 248, 0.5);
+            box-shadow: 0 0 15px rgba(56, 189, 248, 0.15);
+        }
+
+        /* Modal Backdrop */
+        .modal-backdrop {
+            background-color: rgba(3, 7, 18, 0.85);
+            backdrop-filter: blur(10px);
+        }
+
+        /* Print Styles for Direct Export to PDF */
+        @media print {
+            body { overflow: auto; background: white; color: black; }
+            .stage-container { height: auto; background: none; }
+            .slide-canvas { width: 100%; height: auto; transform: none !important; border: none; box-shadow: none; page-break-after: always; }
+            header, footer, .modal-backdrop { display: none !important; }
+            .slide-content { display: flex !important; }
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <div class="stage-container" id="stageContainer">
+        <!-- The Fixed 1280x720 Presentation Canvas -->
+        <div class="slide-canvas" id="slideCanvas">
+
+            <header class="h-14 border-b border-brand-border px-6 flex items-center justify-between shrink-0 bg-[#050914] z-20">
+                <div class="flex items-center space-x-3">
+                    <div class="flex items-center space-x-2">
+                        <div class="w-7 h-7 rounded-lg bg-gradient-to-tr from-sky-500 to-emerald-400 flex items-center justify-center font-bold text-slate-950 font-heading text-sm shadow-md shadow-sky-500/20">
+                            M
+                        </div>
+                        <span class="font-heading font-bold text-lg tracking-tight text-white">
+                            METAYB <span class="text-brand-cyan text-xs font-mono font-normal tracking-wider px-1.5 py-0.5 rounded bg-sky-950/80 border border-sky-800/50 ml-1">TOLARAM AI TRANSFORM</span>
+                        </span>
+                    </div>
+                    <span class="text-slate-700">|</span>
+                    <span class="text-xs text-slate-300 font-medium tracking-wide" id="headerSlideTitle">
+                        Strategic Vision & Plain-English Business Case
+                    </span>
+                </div>
+
+                <div class="flex items-center space-x-4">
+                    <!-- Portfolio Badges -->
+                    <div class="hidden lg:flex items-center space-x-1.5 text-[10px] font-mono text-slate-400 bg-slate-900/80 px-2.5 py-1 rounded-full border border-slate-800">
+                        <span class="text-sky-400 font-semibold">BRANDS:</span>
+                        <span>Indomie</span> • <span>Multipro</span> • <span>TG Arla</span> • <span>Kellogg's</span> • <span>Power Oil</span>
+                    </div>
+
+                    <!-- Slide Controls -->
+                    <div class="flex items-center space-x-1 bg-slate-900/90 rounded-lg p-1 border border-slate-800">
+                        <button onclick="prevSlide()" class="p-1.5 text-slate-400 hover:text-brand-cyan hover:bg-slate-800 rounded transition-colors" title="Previous Slide (Left Arrow)">
+                            <i data-lucide="chevron-left" class="w-4 h-4"></i>
+                        </button>
+                        <span class="text-xs font-mono font-medium text-slate-300 px-2 min-w-[50px] text-center" id="slideIndicator">
+                            01 / 07
+                        </span>
+                        <button onclick="nextSlide()" class="p-1.5 text-slate-400 hover:text-brand-cyan hover:bg-slate-800 rounded transition-colors" title="Next Slide (Right Arrow)">
+                            <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+
+                    <!-- Action Tools -->
+                    <div class="flex items-center space-x-1">
+                        <button onclick="toggleOverview()" class="p-1.5 text-slate-400 hover:text-brand-cyan hover:bg-slate-800 rounded transition-colors" title="Slide Grid Overview (O)">
+                            <i data-lucide="grid" class="w-4 h-4"></i>
+                        </button>
+                        <button onclick="toggleFullscreen()" class="p-1.5 text-slate-400 hover:text-brand-cyan hover:bg-slate-800 rounded transition-colors" title="Toggle Fullscreen (F)">
+                            <i data-lucide="maximize" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+                </div>
+            </header>
+
+            <main class="flex-1 relative overflow-hidden p-6 bg-radial-gradient">
+
+                <!-- ==================== SLIDE 1: STRATEGIC VISION & EXECUTIVE BUSINESS CASE ==================== -->
+                <div class="slide-content w-full h-full flex flex-col justify-between" id="slide-1">
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-sky-950/60 border border-sky-800/40 text-brand-cyan text-xs font-mono">
+                                <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
+                                <span>STRATEGIC OBJECTIVE • EXECUTIVE SUMMARY</span>
+                            </div>
+                            <span class="text-xs font-mono text-slate-400">BENCHMARKED AGAINST GLOBAL FMCG LEADER STANDARDS</span>
+                        </div>
+                        <h1 class="font-heading font-bold text-3xl tracking-tight text-white leading-tight">
+                            Smart AI Supply Chain Transformation for Tolaram FMCG
+                        </h1>
+                        <p class="text-sm text-slate-300 mt-1 max-w-4xl">
+                            <strong class="text-white">Our Main Goal:</strong> Stop holding excess stock, prevent factory shutdowns caused by port delays, and deliver products to market faster—unlocking <span class="text-brand-emerald font-semibold">$30M–$50M in Cash</span> and increasing delivery success to <span class="text-brand-gold font-semibold">&gt;96%</span>.
+                        </p>
+                    </div>
+
+                    <!-- 4 KPI Metric Cards -->
+                    <div class="grid grid-cols-4 gap-4 my-2">
+                        <div class="glass-card p-3.5 border-l-4 border-l-brand-cyan relative overflow-hidden">
+                            <div class="text-[11px] font-mono text-slate-400 uppercase tracking-wider mb-1">Stock Waiting Time (DIO)</div>
+                            <div class="font-heading font-bold text-2xl text-white flex items-baseline">
+                                62d <i data-lucide="arrow-right" class="w-4 h-4 text-brand-cyan mx-1"></i> <span class="text-brand-cyan">40d</span>
+                            </div>
+                            <div class="text-xs text-brand-emerald mt-1 font-medium flex items-center">
+                                <i data-lucide="trending-down" class="w-3 h-3 mr-1"></i> Cut warehouse sitting time by 35%
+                            </div>
+                        </div>
+
+                        <div class="glass-card p-3.5 border-l-4 border-l-brand-emerald relative overflow-hidden">
+                            <div class="text-[11px] font-mono text-slate-400 uppercase tracking-wider mb-1">Annual Profit Boost</div>
+                            <div class="font-heading font-bold text-2xl text-brand-emerald">
+                                +$28M <span class="text-sm font-normal text-slate-300">/ yr</span>
+                            </div>
+                            <div class="text-xs text-slate-300 mt-1 font-medium flex items-center">
+                                <i data-lucide="dollar-sign" class="w-3 h-3 mr-0.5 text-brand-emerald"></i> Lower operational & freight costs
+                            </div>
+                        </div>
+
+                        <div class="glass-card p-3.5 border-l-4 border-l-brand-gold relative overflow-hidden">
+                            <div class="text-[11px] font-mono text-slate-400 uppercase tracking-wider mb-1">On-Time Delivery (OTIF)</div>
+                            <div class="font-heading font-bold text-2xl text-brand-gold">
+                                &gt;96.0%
+                            </div>
+                            <div class="text-xs text-slate-300 mt-1 font-medium flex items-center">
+                                <i data-lucide="check-circle" class="w-3 h-3 mr-1 text-brand-gold"></i> Stores & wholesalers never run dry
+                            </div>
+                        </div>
+
+                        <div class="glass-card p-3.5 border-l-4 border-l-purple-400 relative overflow-hidden">
+                            <div class="text-[11px] font-mono text-slate-400 uppercase tracking-wider mb-1">Problem Alert Speed</div>
+                            <div class="font-heading font-bold text-purple-400 text-2xl">
+                                &lt;15 Min
+                            </div>
+                            <div class="text-xs text-slate-300 mt-1 font-medium flex items-center">
+                                <i data-lucide="clock" class="w-3 h-3 mr-1 text-purple-400"></i> Auto-fix port & delivery delays
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Split Section: Core Challenges vs Interactive ROI Calculator -->
+                    <div class="grid grid-cols-12 gap-4 flex-1">
+                        <div class="col-span-7 glass-card p-4 flex flex-col justify-between">
+                            <div>
+                                <h3 class="font-heading font-bold text-sm text-brand-cyan mb-2 uppercase tracking-wide flex items-center">
+                                    <i data-lucide="alert-circle" class="w-4 h-4 mr-1.5 text-brand-gold"></i>
+                                    The 4 Core Operational Problems We Are Solving
+                                </h3>
+                                <div class="grid grid-cols-2 gap-2 text-xs">
+                                    <div class="p-2 rounded bg-slate-900/90 border border-slate-800">
+                                        <div class="font-semibold text-slate-200">1. Port Delays & Penalty Fines</div>
+                                        <div class="text-slate-400 text-[11px] mt-0.5">Containers trapped at Lekki/Lagos port cause steep demurrage penalty fees.</div>
+                                    </div>
+                                    <div class="p-2 rounded bg-slate-900/90 border border-slate-800">
+                                        <div class="font-semibold text-slate-200">2. Raw Material Line Stops</div>
+                                        <div class="text-slate-400 text-[11px] mt-0.5">Wheat, palm oil, and packaging arrive late, stalling production lines.</div>
+                                    </div>
+                                    <div class="p-2 rounded bg-slate-900/90 border border-slate-800">
+                                        <div class="font-semibold text-slate-200">3. Wholesale Blind-Spots</div>
+                                        <div class="text-slate-400 text-[11px] mt-0.5">Multipro van sales lack real-time visibility across 1,000+ local open markets.</div>
+                                    </div>
+                                    <div class="p-2 rounded bg-slate-900/90 border border-slate-800">
+                                        <div class="font-semibold text-slate-200">4. Excess Cash Tied Up</div>
+                                        <div class="text-slate-400 text-[11px] mt-0.5">Factories keep huge safety buffers because sales forecasting is uncertain.</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="p-2 rounded bg-sky-950/40 border border-sky-800/60 flex items-center justify-between text-xs">
+                                <span class="text-slate-300">💡 <strong>Simple Terms:</strong> We use smart AI to stop holding extra stock and deliver faster.</span>
+                                <span class="text-brand-emerald font-semibold font-mono text-[11px]">SAFE SAP OVERLAY</span>
+                            </div>
+                        </div>
+
+                        <!-- Interactive Business Calculator -->
+                        <div class="col-span-5 glass-card p-4 flex flex-col justify-between border-slate-700 bg-slate-900/95">
+                            <div>
+                                <div class="flex items-center justify-between mb-2">
+                                    <h3 class="font-heading font-bold text-sm text-white flex items-center">
+                                        <i data-lucide="calculator" class="w-4 h-4 mr-1.5 text-brand-emerald"></i>
+                                        Interactive Financial Impact Calculator
+                                    </h3>
+                                    <span class="text-[10px] font-mono text-brand-cyan bg-sky-950/80 px-2 py-0.5 rounded border border-sky-800">
+                                        MOVE SLIDERS
+                                    </span>
+                                </div>
+
+                                <div class="space-y-3 my-2 text-xs">
+                                    <div>
+                                        <div class="flex justify-between text-slate-300 mb-1">
+                                            <span>Annual Portfolio Revenue:</span>
+                                            <span class="font-mono font-bold text-white" id="revVal">$750 Million</span>
+                                        </div>
+                                        <input type="range" id="revSlider" min="500" max="1200" step="50" value="750" oninput="updateCalculator()" class="w-full h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-sky-400">
+                                    </div>
+
+                                    <div>
+                                        <div class="flex justify-between text-slate-300 mb-1">
+                                            <span>Current Warehouse Waiting Days:</span>
+                                            <span class="font-mono font-bold text-white" id="dioVal">62 Days</span>
+                                        </div>
+                                        <input type="range" id="dioSlider" min="45" max="80" step="1" value="62" oninput="updateCalculator()" class="w-full h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-emerald-400">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="p-3 rounded bg-slate-950 border border-slate-800 grid grid-cols-2 gap-2 text-center">
+                                <div class="border-r border-slate-800 pr-2">
+                                    <div class="text-[10px] font-mono text-slate-400">CASH FREED FROM WAREHOUSES</div>
+                                    <div class="font-heading font-bold text-xl text-brand-emerald mt-0.5" id="calcCap">$45.2M</div>
+                                </div>
+                                <div>
+                                    <div class="text-[10px] font-mono text-slate-400">ANNUAL PROFIT GAIN</div>
+                                    <div class="font-heading font-bold text-xl text-brand-cyan mt-0.5" id="calcEbitda">+$28.1M</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ==================== SLIDE 2: TARGET AI SYSTEM ARCHITECTURE ==================== -->
+                <div class="slide-content hidden w-full h-full flex flex-col justify-between" id="slide-2">
+                    <div>
+                        <div class="flex items-center justify-between mb-1">
+                            <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-sky-950/60 border border-sky-800/40 text-brand-cyan text-xs font-mono">
+                                <i data-lucide="layers" class="w-3.5 h-3.5"></i>
+                                <span>SYSTEM ARCHITECTURE • HOW IT WORKS SIMPLY</span>
+                            </div>
+                            <span class="text-xs font-mono text-emerald-400 flex items-center">
+                                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping mr-1.5"></span>
+                                SITS SAFELY ON TOP OF SAP WITHOUT BREAKING ANYTHING
+                            </span>
+                        </div>
+                        <h2 class="font-heading font-bold text-2xl tracking-tight text-white">
+                            The 4 Simple Layers of Our AI Supply Chain Engine
+                        </h2>
+                        <p class="text-xs text-slate-300 mt-1">
+                            Instead of replacing our existing SAP ERP system, Metayb sits gently on top like a smart assistant—reading data instantly and sending back helpful automated actions.
+                        </p>
+                    </div>
+
+                    <!-- Architecture Visual Banner -->
+                    <div class="glass-card p-2 flex items-center space-x-4 border-slate-800 bg-slate-950/80">
+                        <div class="w-36 h-14 rounded-lg overflow-hidden shrink-0 border border-sky-500/30 relative">
+                            <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=600&q=80" alt="Cloud Architecture Engine" class="w-full h-full object-cover">
+                            <div class="absolute inset-0 bg-sky-950/30"></div>
+                        </div>
+                        <div class="text-xs">
+                            <span class="font-mono text-brand-cyan font-semibold block text-[11px]">SAP CDC DATA PIPELINE & OVERLAY ENGINE</span>
+                            <span class="text-slate-300 text-[11px]">Real-time read/write data bus linking SAP ERP, factory shop-floor IoT sensors, GPS delivery trucks, and Lekki port APIs.</span>
+                        </div>
+                    </div>
+
+                    <!-- 4 Architecture Columns -->
+                    <div class="grid grid-cols-4 gap-3 my-1 flex-1">
+                        <div class="glass-card p-3 flex flex-col justify-between border-t-2 border-t-sky-400">
+                            <div>
+                                <div class="flex items-center justify-between mb-1.5">
+                                    <span class="text-[10px] font-mono text-sky-400 bg-sky-950/80 px-2 py-0.5 rounded">LAYER 1</span>
+                                    <i data-lucide="database" class="w-4 h-4 text-sky-400"></i>
+                                </div>
+                                <h3 class="font-heading font-bold text-xs text-white mb-1">1. Data Gathering</h3>
+                                <p class="text-[10px] text-slate-400 mb-1.5">Collects live updates from across the business.</p>
+                                <ul class="space-y-1 text-[10px] text-slate-300">
+                                    <li class="p-1 rounded bg-slate-900/80 border border-slate-800">
+                                        <strong>SAP Sync:</strong> Real-time stock & order feed.
+                                    </li>
+                                    <li class="p-1 rounded bg-slate-900/80 border border-slate-800">
+                                        <strong>Van GPS:</strong> Multipro sales van locations.
+                                    </li>
+                                    <li class="p-1 rounded bg-slate-900/80 border border-slate-800">
+                                        <strong>Port APIs:</strong> Vessel status at Lekki Port.
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="mt-1 text-[9px] font-mono text-slate-400 text-center">
+                                Sub-Second Live Data Sync
+                            </div>
+                        </div>
+
+                        <div class="glass-card p-3 flex flex-col justify-between border-t-2 border-t-emerald-400">
+                            <div>
+                                <div class="flex items-center justify-between mb-1.5">
+                                    <span class="text-[10px] font-mono text-emerald-400 bg-emerald-950/80 px-2 py-0.5 rounded">LAYER 2</span>
+                                    <i data-lucide="brain-circuit" class="w-4 h-4 text-emerald-400"></i>
+                                </div>
+                                <h3 class="font-heading font-bold text-xs text-white mb-1">2. Smart Brain</h3>
+                                <p class="text-[10px] text-slate-400 mb-1.5">Analyzes patterns and predicts market needs.</p>
+                                <ul class="space-y-1 text-[10px] text-slate-300">
+                                    <li class="p-1 rounded bg-slate-900/80 border border-slate-800">
+                                        <strong>Demand Predictor:</strong> Sales forecast based on weather.
+                                    </li>
+                                    <li class="p-1 rounded bg-slate-900/80 border border-slate-800">
+                                        <strong>Stock Balancer:</strong> Right safety buffer size.
+                                    </li>
+                                    <li class="p-1 rounded bg-slate-900/80 border border-slate-800">
+                                        <strong>Early Alerts:</strong> Spots upcoming stockouts.
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="mt-1 text-[9px] font-mono text-slate-400 text-center">
+                                Clear Explainable AI
+                            </div>
+                        </div>
+
+                        <div class="glass-card p-3 flex flex-col justify-between border-t-2 border-t-amber-400">
+                            <div>
+                                <div class="flex items-center justify-between mb-1.5">
+                                    <span class="text-[10px] font-mono text-amber-400 bg-amber-950/80 px-2 py-0.5 rounded">LAYER 3</span>
+                                    <i data-lucide="cpu" class="w-4 h-4 text-amber-400"></i>
+                                </div>
+                                <h3 class="font-heading font-bold text-xs text-white mb-1">3. Action Engine</h3>
+                                <p class="text-[10px] text-slate-400 mb-1.5">Executes routine tasks automatically.</p>
+                                <ul class="space-y-1 text-[10px] text-slate-300">
+                                    <li class="p-1 rounded bg-slate-900/80 border border-slate-800">
+                                        <strong>Auto Purchase Orders:</strong> Sends minor orders (&lt;$25k).
+                                    </li>
+                                    <li class="p-1 rounded bg-slate-900/80 border border-slate-800">
+                                        <strong>Warehouse Dispatch:</strong> Guided forklift picking.
+                                    </li>
+                                    <li class="p-1 rounded bg-slate-900/80 border border-slate-800">
+                                        <strong>Truck Bidding:</strong> Finds best transport rates.
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="mt-1 text-[9px] font-mono text-slate-400 text-center">
+                                $25k Human Safety Cap
+                            </div>
+                        </div>
+
+                        <div class="glass-card p-3 flex flex-col justify-between border-t-2 border-t-purple-400">
+                            <div>
+                                <div class="flex items-center justify-between mb-1.5">
+                                    <span class="text-[10px] font-mono text-purple-400 bg-purple-950/80 px-2 py-0.5 rounded">LAYER 4</span>
+                                    <i data-lucide="activity" class="w-4 h-4 text-purple-400"></i>
+                                </div>
+                                <h3 class="font-heading font-bold text-xs text-white mb-1">4. Control Dashboard</h3>
+                                <p class="text-[10px] text-slate-400 mb-1.5">Live map and screen for operations.</p>
+                                <ul class="space-y-1 text-[10px] text-slate-300">
+                                    <li class="p-1 rounded bg-slate-900/80 border border-slate-800">
+                                        <strong>Single Map View:</strong> Shipping & warehouses synced.
+                                    </li>
+                                    <li class="p-1 rounded bg-slate-900/80 border border-slate-800">
+                                        <strong>Digital Simulator:</strong> Tests port delay scenarios.
+                                    </li>
+                                    <li class="p-1 rounded bg-slate-900/80 border border-slate-800">
+                                        <strong>Leadership Screen:</strong> Delivery scorecards.
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="mt-1 text-[9px] font-mono text-slate-400 text-center">
+                                360° Operational Map
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- System Flow Test Simulator -->
+                    <div class="p-3 glass-card flex items-center justify-between border-slate-700 bg-slate-900/90">
+                        <div class="flex items-center space-x-3 text-xs">
+                            <span class="font-mono text-brand-cyan font-semibold flex items-center">
+                                <i data-lucide="play-circle" class="w-4 h-4 mr-1"></i> SYSTEM FLOW SIMULATION:
+                            </span>
+                            <span class="text-slate-300" id="archStatusText">Click "Run Test" to see how information moves safely across layers.</span>
+                        </div>
+                        <button onclick="runArchSimulation()" class="px-3 py-1.5 rounded bg-sky-500 hover:bg-sky-400 text-slate-950 font-bold text-xs font-mono transition-colors flex items-center shrink-0">
+                            <i data-lucide="zap" class="w-3.5 h-3.5 mr-1"></i> RUN SYSTEM TEST
+                        </button>
+                    </div>
+                </div>
+
+                <!-- ==================== SLIDE 3: SMART PLANNING, MEIO & AGILE SOURCING ==================== -->
+                <div class="slide-content hidden w-full h-full flex flex-col justify-between" id="slide-3">
+                    <div>
+                        <div class="flex items-center justify-between mb-1">
+                            <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-sky-950/60 border border-sky-800/40 text-brand-cyan text-xs font-mono">
+                                <i data-lucide="trending-up" class="w-3.5 h-3.5"></i>
+                                <span>SMART PLANNING • REAL-WORLD CASE STUDIES</span>
+                            </div>
+                            <span class="text-xs font-mono text-brand-gold">PRACTICAL EXAMPLES FOR FACTORIES & SUPPLIERS</span>
+                        </div>
+                        <h2 class="font-heading font-bold text-2xl tracking-tight text-white">
+                            Smarter Demand Forecasting & Fast Packaging Procurement
+                        </h2>
+                        <p class="text-xs text-slate-300 mt-1">
+                            How we build trust with factory managers at Dufil (Indomie) and cut supplier packaging lead times for Power Oil & Kellogg's.
+                        </p>
+                    </div>
+
+                    <!-- 2 Case Study Columns -->
+                    <div class="grid grid-cols-2 gap-4 my-2 flex-1">
+                        <!-- Dufil Indomie Demand Sensing -->
+                        <div class="glass-card p-4 flex flex-col justify-between border-l-4 border-l-sky-400">
+                            <div>
+                                <div class="flex items-center justify-between mb-2">
+                                    <span class="font-heading font-bold text-sm text-white">DUFIL PRIMA FOODS (INDOMIE NOODLES)</span>
+                                    <span class="text-[10px] font-mono text-sky-400 bg-sky-950 px-2 py-0.5 rounded border border-sky-800">CLEAR FORECAST</span>
+                                </div>
+                                <h3 class="text-xs font-semibold text-brand-cyan mb-1">Building Trust With Factory Plant Managers</h3>
+                                <p class="text-[11px] text-slate-300 mb-3">
+                                    Instead of giving plant managers a "mysterious AI number," our system breaks down <i>exactly why</i> it recommends making more or less Indomie.
+                                </p>
+
+                                <div class="space-y-2 text-[11px] font-mono">
+                                    <div>
+                                        <div class="flex justify-between text-slate-300 mb-0.5">
+                                            <span>1. Regular Daily Consumption</span>
+                                            <span class="text-sky-400 font-bold">42,000 Cartons (55%)</span>
+                                        </div>
+                                        <div class="w-full h-2 bg-slate-800 rounded">
+                                            <div class="h-2 bg-sky-500 rounded" style="width: 55%"></div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="flex justify-between text-slate-300 mb-0.5">
+                                            <span>2. Festive Season Surge (Ramadan/Xmas)</span>
+                                            <span class="text-emerald-400 font-bold">+18,000 Cartons (24%)</span>
+                                        </div>
+                                        <div class="w-full h-2 bg-slate-800 rounded">
+                                            <div class="h-2 bg-emerald-400 rounded" style="width: 24%"></div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="flex justify-between text-slate-300 mb-0.5">
+                                            <span>3. Wholesale Promotion Discounts</span>
+                                            <span class="text-amber-400 font-bold">+11,500 Cartons (15%)</span>
+                                        </div>
+                                        <div class="w-full h-2 bg-slate-800 rounded">
+                                            <div class="h-2 bg-amber-400 rounded" style="width: 15%"></div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="flex justify-between text-slate-300 mb-0.5">
+                                            <span>4. Rainy Weather / School Resumption</span>
+                                            <span class="text-purple-400 font-bold">+4,500 Cartons (6%)</span>
+                                        </div>
+                                        <div class="w-full h-2 bg-slate-800 rounded">
+                                            <div class="h-2 bg-purple-400 rounded" style="width: 6%"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mt-3 p-2 rounded bg-slate-900 border border-slate-800 flex justify-between items-center text-xs">
+                                <div>
+                                    <span class="text-slate-400 block text-[10px]">FORECAST ACCURACY LIFT</span>
+                                    <span class="font-bold text-brand-emerald">72% <i data-lucide="arrow-right" class="w-3 h-3 inline"></i> 94.2%</span>
+                                </div>
+                                <div>
+                                    <span class="text-slate-400 block text-[10px]">UNNEEDED SAFETY STOCK</span>
+                                    <span class="font-bold text-brand-cyan">Cut by 28 Days</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Power Oil & Kellogg's Portal -->
+                        <div class="glass-card p-4 flex flex-col justify-between border-l-4 border-l-emerald-400">
+                            <div>
+                                <div class="flex items-center justify-between mb-2">
+                                    <span class="font-heading font-bold text-sm text-white">POWER OIL & KELLOGG'S PACKAGING</span>
+                                    <span class="text-[10px] font-mono text-emerald-400 bg-emerald-950 px-2 py-0.5 rounded border border-emerald-800">DIRECT SUPPLIER PORTAL</span>
+                                </div>
+                                <h3 class="text-xs font-semibold text-brand-emerald mb-1">Direct Live Portal for Packaging Suppliers</h3>
+                                <p class="text-[11px] text-slate-300 mb-3">
+                                    Suppliers log into a simple web portal to see live production schedules, eliminating delayed paper orders and packaging shortages.
+                                </p>
+
+                                <div class="space-y-3 text-xs">
+                                    <div class="p-2.5 rounded bg-slate-900/90 border border-slate-800">
+                                        <div class="flex justify-between items-center mb-1">
+                                            <span class="font-semibold text-rose-400">Old Way (Manual Purchase Orders):</span>
+                                            <span class="font-mono text-rose-400 font-bold">30 Days Waiting Time</span>
+                                        </div>
+                                        <p class="text-[11px] text-slate-400">
+                                            PDF orders emailed manually → Delayed supplier confirmation → Packaging arrives late → Factory lines stop.
+                                        </p>
+                                    </div>
+
+                                    <div class="p-2.5 rounded bg-sky-950/40 border border-sky-800/60">
+                                        <div class="flex justify-between items-center mb-1">
+                                            <span class="font-semibold text-brand-emerald">New Metayb Smart Portal Way:</span>
+                                            <span class="font-mono text-brand-emerald font-bold">7 Days Waiting Time</span>
+                                        </div>
+                                        <p class="text-[11px] text-slate-300">
+                                            Live schedule shared on portal → Automated small batch orders → Instant confirmation → Rapid local delivery.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mt-3 p-2 rounded bg-slate-900 border border-slate-800 flex justify-between items-center text-xs">
+                                <div>
+                                    <span class="text-slate-400 block text-[10px]">PACKAGING DELIVERY TIME</span>
+                                    <span class="font-bold text-brand-emerald">30 Days <i data-lucide="arrow-right" class="w-3 h-3 inline"></i> 7 Days</span>
+                                </div>
+                                <div>
+                                    <span class="text-slate-400 block text-[10px]">FACTORY LINE SHUTDOWN RISK</span>
+                                    <span class="font-bold text-brand-cyan">Reduced by 85%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="p-2.5 rounded bg-slate-900/90 border border-slate-800 flex items-center justify-between text-xs text-slate-300">
+                        <span class="flex items-center">
+                            <i data-lucide="check-circle" class="w-4 h-4 text-brand-emerald mr-2"></i>
+                            <strong>Smart Stock Balance:</strong> Keeps raw materials balanced automatically between port storage yards and regional factories.
+                        </span>
+                        <span class="font-mono text-[10px] text-brand-cyan">BALANCED STOCK NETWORK</span>
+                    </div>
+                </div>
+
+                <!-- ==================== SLIDE 4: MULTIPRO CONTROL TOWER & DIGITAL TWIN ==================== -->
+                <div class="slide-content hidden w-full h-full flex flex-col justify-between" id="slide-4">
+                    <div>
+                        <div class="flex items-center justify-between mb-1">
+                            <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-purple-950/60 border border-purple-800/40 text-purple-300 text-xs font-mono">
+                                <i data-lucide="monitor" class="w-3.5 h-3.5"></i>
+                                <span>LIVE CONTROL DASHBOARD • MULTIPRO DISTRIBUTION</span>
+                            </div>
+                            <span class="text-xs font-mono text-brand-cyan">REAL-TIME MONITORING FROM PORT TO DEPOT</span>
+                        </div>
+                        <h2 class="font-heading font-bold text-2xl tracking-tight text-white">
+                            Multipro Distribution Control Tower & Live Map
+                        </h2>
+                        <p class="text-xs text-slate-300 mt-1">
+                            Connecting Lekki port clearance to 18 regional distribution depots in Nigeria, solving port delays in under 15 minutes.
+                        </p>
+                    </div>
+
+                    <div class="grid grid-cols-12 gap-4 my-2 flex-1">
+                        <!-- Live Map Simulation Canvas -->
+                        <div class="col-span-8 glass-card p-4 flex flex-col justify-between relative overflow-hidden bg-slate-950 border-slate-800">
+                            <div class="relative z-10 flex justify-between items-center mb-2">
+                                <span class="text-xs font-mono font-semibold text-white flex items-center">
+                                    <span class="w-2 h-2 rounded-full bg-brand-emerald animate-ping mr-2"></span>
+                                    LIVE NIGERIA NETWORK MAP (LEKKI PORT TO REGIONAL WAREHOUSES)
+                                </span>
+                                <span class="text-[10px] font-mono text-slate-400 bg-slate-900 px-2 py-0.5 rounded border border-slate-800">
+                                    SIMULATED LIVE VIEW
+                                </span>
+                            </div>
+
+                            <!-- Live Operations Media Visual -->
+                            <div class="relative z-10 h-28 w-full rounded-lg overflow-hidden border border-slate-800 mb-2">
+                                <img src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1000&q=80" alt="Lekki Port & Multipro Logistics Telemetry" class="w-full h-full object-cover">
+                                <div class="absolute inset-0 bg-gradient-to-r from-slate-950/90 via-slate-950/50 to-transparent p-3 flex flex-col justify-center">
+                                    <span class="text-[10px] font-mono text-sky-400 font-bold uppercase">LIVE PORT & FREIGHT TELEMETRY</span>
+                                    <span class="text-xs text-white font-semibold">Lekki Container Terminal ↔ Ota Factory ↔ Ikeja RDC</span>
+                                    <span class="text-[11px] text-slate-300">Tracking 1,200+ Multipro delivery vans & port clearing containers in real-time.</span>
+                                </div>
+                            </div>
+
+                            <div class="relative z-10 my-1 grid grid-cols-5 gap-2 text-center text-xs">
+                                <div class="p-2 rounded bg-slate-900/90 border border-sky-500/50 flex flex-col items-center">
+                                    <i data-lucide="anchor" class="w-4 h-4 text-sky-400 mb-0.5"></i>
+                                    <span class="font-bold text-white text-[10px]">Lekki Port</span>
+                                    <span class="text-[9px] font-mono text-amber-400 mt-0.5" id="lekkiStatus">14 Containers Waiting</span>
+                                </div>
+                                <div class="flex items-center justify-center text-slate-600">
+                                    <i data-lucide="arrow-right" class="w-4 h-4 text-sky-400 animate-pulse"></i>
+                                </div>
+                                <div class="p-2 rounded bg-slate-900/90 border border-emerald-500/50 flex flex-col items-center">
+                                    <i data-lucide="factory" class="w-4 h-4 text-emerald-400 mb-0.5"></i>
+                                    <span class="font-bold text-white text-[10px]">Ota Factory</span>
+                                    <span class="text-[9px] font-mono text-emerald-400 mt-0.5">Running Smoothly</span>
+                                </div>
+                                <div class="flex items-center justify-center text-slate-600">
+                                    <i data-lucide="arrow-right" class="w-4 h-4 text-emerald-400 animate-pulse"></i>
+                                </div>
+                                <div class="p-2 rounded bg-slate-900/90 border border-purple-500/50 flex flex-col items-center">
+                                    <i data-lucide="warehouse" class="w-4 h-4 text-purple-400 mb-0.5"></i>
+                                    <span class="font-bold text-white text-[10px]">Ikeja Depot</span>
+                                    <span class="text-[9px] font-mono text-purple-400 mt-0.5">88% Full</span>
+                                </div>
+                            </div>
+
+                            <!-- Interactive Delay Solution Box -->
+                            <div class="relative z-10 p-2.5 rounded bg-amber-950/40 border border-amber-500/50 flex items-center justify-between">
+                                <div class="flex items-center space-x-3">
+                                    <div class="p-1.5 rounded-full bg-amber-500/20 text-amber-400">
+                                        <i data-lucide="alert-triangle" class="w-4 h-4"></i>
+                                    </div>
+                                    <div class="text-xs">
+                                        <div class="font-bold text-amber-300">LEKKI PORT DELAY DETECTED</div>
+                                        <div class="text-slate-300 text-[11px]" id="simAlertDetail">
+                                            2-Day delay expected for wheat containers. Fine risk: $42,000 in demurrage.
+                                        </div>
+                                    </div>
+                                </div>
+                                <button onclick="triggerAutoTriage()" id="triageBtn" class="px-3 py-1.5 rounded bg-amber-400 hover:bg-amber-300 text-slate-950 font-bold text-xs font-mono transition-colors flex items-center shrink-0">
+                                    <i data-lucide="zap" class="w-3.5 h-3.5 mr-1"></i> AUTO-REROUTE TRUCKS
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- 4 Pillars Breakdown -->
+                        <div class="col-span-4 glass-card p-4 flex flex-col justify-between">
+                            <div>
+                                <h3 class="font-heading font-bold text-sm text-brand-cyan mb-2 uppercase tracking-wide">
+                                    Complete Distribution Visibility
+                                </h3>
+                                <div class="space-y-2 text-xs">
+                                    <div class="p-2 rounded bg-slate-900 border border-slate-800">
+                                        <div class="font-bold text-white flex items-center">
+                                            <span class="w-1.5 h-1.5 rounded-full bg-sky-400 mr-2"></span>
+                                            1. Orders (Matching Needs)
+                                        </div>
+                                        <p class="text-[11px] text-slate-400 mt-0.5">Matches store purchase requests directly to nearest depot stock.</p>
+                                    </div>
+                                    <div class="p-2 rounded bg-slate-900 border border-slate-800">
+                                        <div class="font-bold text-white flex items-center">
+                                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 mr-2"></span>
+                                            2. Transport (Truck GPS)
+                                        </div>
+                                        <p class="text-[11px] text-slate-400 mt-0.5">Live tracking for 1,200+ delivery trucks across roads.</p>
+                                    </div>
+                                    <div class="p-2 rounded bg-slate-900 border border-slate-800">
+                                        <div class="font-bold text-white flex items-center">
+                                            <span class="w-1.5 h-1.5 rounded-full bg-amber-400 mr-2"></span>
+                                            3. Warehouses (Depot Stock)
+                                        </div>
+                                        <p class="text-[11px] text-slate-400 mt-0.5">Instant pallet counts across all 18 regional distribution hubs.</p>
+                                    </div>
+                                    <div class="p-2 rounded bg-slate-900 border border-slate-800">
+                                        <div class="font-bold text-white flex items-center">
+                                            <span class="w-1.5 h-1.5 rounded-full bg-purple-400 mr-2"></span>
+                                            4. Billing (Auto-Invoicing)
+                                        </div>
+                                        <p class="text-[11px] text-slate-400 mt-0.5">Automatically verifies freight fees and checks for late delivery penalties.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mt-2 text-[10px] font-mono text-center text-slate-400">
+                                AUTO-APPROVAL SAFETY CAP: $25,000 PER INCIDENT
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ==================== SLIDE 5: HIGH-IMPACT VALUE CHAIN AI USE CASES ==================== -->
+                <div class="slide-content hidden w-full h-full flex flex-col justify-between" id="slide-5">
+                    <div>
+                        <div class="flex items-center justify-between mb-1">
+                            <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-emerald-950/60 border border-emerald-800/40 text-emerald-300 text-xs font-mono">
+                                <i data-lucide="cpu" class="w-3.5 h-3.5"></i>
+                                <span>PRACTICAL DAILY USE CASES • GROUND-LEVEL IMPACT</span>
+                            </div>
+                            <span class="text-xs font-mono text-brand-cyan">LOCATIONS: LAGOS, OTA & PORT HARCOURT</span>
+                        </div>
+                        <h2 class="font-heading font-bold text-2xl tracking-tight text-white">
+                            3 Practical AI Applications Solving Daily Operations
+                        </h2>
+                        <p class="text-xs text-slate-300 mt-1">
+                            How AI directly assists warehouse teams, sales drivers, and procurement officers on the ground every day.
+                        </p>
+                    </div>
+
+                    <!-- 3 Cards -->
+                    <div class="grid grid-cols-3 gap-4 my-2 flex-1">
+                        <div class="glass-card p-4 flex flex-col justify-between border-t-2 border-t-sky-400">
+                            <div>
+                                <div class="w-8 h-8 rounded bg-sky-500/20 text-sky-400 flex items-center justify-center mb-3">
+                                    <i data-lucide="bot" class="w-5 h-5"></i>
+                                </div>
+                                <h3 class="font-heading font-bold text-sm text-white mb-1">1. Smart Warehouses & Guided Forklifts</h3>
+                                <p class="text-[10px] font-mono text-sky-400 mb-2">LAGOS, OTA & PORT HARCOURT DEPOTS</p>
+                                <p class="text-xs text-slate-300 mb-3">
+                                    Cameras scan pallet barcodes automatically, telling forklift drivers exactly where to place and pick goods faster.
+                                </p>
+                                <ul class="space-y-1.5 text-[11px] text-slate-400">
+                                    <li class="flex items-center"><i data-lucide="check" class="w-3 h-3 text-sky-400 mr-1.5"></i> Eliminates manual counting mistakes</li>
+                                    <li class="flex items-center"><i data-lucide="check" class="w-3 h-3 text-sky-400 mr-1.5"></i> Enables fast night-time truck loading</li>
+                                </ul>
+                            </div>
+                            <div class="mt-3 p-2 rounded bg-sky-950/50 border border-sky-800 text-center">
+                                <span class="text-[10px] font-mono text-slate-400 block">DAILY BENEFIT</span>
+                                <span class="font-bold text-brand-cyan text-xs">Packing 170% Faster | Dock Wait Cut in Half</span>
+                            </div>
+                        </div>
+
+                        <div class="glass-card p-4 flex flex-col justify-between border-t-2 border-t-emerald-400">
+                            <div>
+                                <div class="w-8 h-8 rounded bg-emerald-500/20 text-emerald-400 flex items-center justify-center mb-3">
+                                    <i data-lucide="navigation" class="w-5 h-5"></i>
+                                </div>
+                                <h3 class="font-heading font-bold text-sm text-white mb-1">2. Smart Sales Van Route Planner</h3>
+                                <p class="text-[10px] font-mono text-emerald-400 mb-2">MULTIPRO 1,200+ SALES VANS</p>
+                                <p class="text-xs text-slate-300 mb-3">
+                                    Gives sales drivers the best daily driving route on their phones to avoid traffic, visit more shops, and save fuel.
+                                </p>
+                                <ul class="space-y-1.5 text-[11px] text-slate-400">
+                                    <li class="flex items-center"><i data-lucide="check" class="w-3 h-3 text-emerald-400 mr-1.5"></i> Live rerouting around traffic jams</li>
+                                    <li class="flex items-center"><i data-lucide="check" class="w-3 h-3 text-emerald-400 mr-1.5"></i> Higher sales per van trip</li>
+                                </ul>
+                            </div>
+                            <div class="mt-3 p-2 rounded bg-emerald-950/50 border border-emerald-800 text-center">
+                                <span class="text-[10px] font-mono text-slate-400 block">DAILY BENEFIT</span>
+                                <span class="font-bold text-brand-emerald text-xs">+22% More Store Deliveries | -18% Fuel Spent</span>
+                            </div>
+                        </div>
+
+                        <div class="glass-card p-4 flex flex-col justify-between border-t-2 border-t-amber-400">
+                            <div>
+                                <div class="w-8 h-8 rounded bg-amber-500/20 text-amber-400 flex items-center justify-center mb-3">
+                                    <i data-lucide="file-text" class="w-5 h-5"></i>
+                                </div>
+                                <h3 class="font-heading font-bold text-sm text-white mb-1">3. Automated Vendor Penalty Tracker</h3>
+                                <p class="text-[10px] font-mono text-amber-400 mb-2">TRANSPORT & SUPPLIER CONTRACTS</p>
+                                <p class="text-xs text-slate-300 mb-3">
+                                    Reads delivery timestamps and automatically files refund claims if transporters arrive late or cause delays.
+                                </p>
+                                <ul class="space-y-1.5 text-[11px] text-slate-400">
+                                    <li class="flex items-center"><i data-lucide="check" class="w-3 h-3 text-amber-400 mr-1.5"></i> Auto-disputes incorrect vendor invoices</li>
+                                    <li class="flex items-center"><i data-lucide="check" class="w-3 h-3 text-amber-400 mr-1.5"></i> Recovers unearned late fees</li>
+                                </ul>
+                            </div>
+                            <div class="mt-3 p-2 rounded bg-amber-950/50 border border-amber-800 text-center">
+                                <span class="text-[10px] font-mono text-slate-400 block">DAILY BENEFIT</span>
+                                <span class="font-bold text-brand-gold text-xs">$1.2M Recovers Every Year in Late Fees</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="p-2.5 rounded bg-slate-900 border border-slate-800 flex justify-between items-center text-xs text-slate-300">
+                        <span>
+                            <strong class="text-white">Easy Scalability:</strong> All three solutions use the exact same Metayb engine, making them simple to expand across all Tolaram brands.
+                        </span>
+                        <span class="font-mono text-[10px] text-slate-400">SAFE & CERTIFIED SYSTEM</span>
+                    </div>
+                </div>
+
+                <!-- ==================== SLIDE 6: 90-DAY IMPLEMENTATION ROADMAP & GUARDRAILS ==================== -->
+                <div class="slide-content hidden w-full h-full flex flex-col justify-between" id="slide-6">
+                    <div>
+                        <div class="flex items-center justify-between mb-1">
+                            <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-sky-950/60 border border-sky-800/40 text-brand-cyan text-xs font-mono">
+                                <i data-lucide="calendar" class="w-3.5 h-3.5"></i>
+                                <span>STEP-BY-STEP ROLLOUT • 90-DAY PLAN</span>
+                            </div>
+                            <span class="text-xs font-mono text-brand-emerald">FIRST RESULTS VISIBLE IN 30 DAYS</span>
+                        </div>
+                        <h2 class="font-heading font-bold text-2xl tracking-tight text-white">
+                            Clear 90-Day Rollout Plan & Safety Rules
+                        </h2>
+                        <p class="text-xs text-slate-300 mt-1">
+                            A carefully planned 3-step rollout that delivers fast quick wins while ensuring complete safety and human control.
+                        </p>
+                    </div>
+
+                    <div class="grid grid-cols-3 gap-4 my-2 flex-1">
+                        <div class="glass-card p-3.5 flex flex-col justify-between border-t-4 border-t-sky-400">
+                            <div>
+                                <div class="flex items-center justify-between mb-1.5">
+                                    <span class="font-heading font-bold text-xs text-sky-400">MONTH 1 (DAYS 1–30)</span>
+                                    <span class="text-[10px] font-mono text-slate-400 bg-slate-900 px-2 py-0.5 rounded">STEP 1</span>
+                                </div>
+                                <h3 class="font-bold text-xs text-white mb-2">Data Connection & Dufil Indomie Pilot</h3>
+                                <ul class="space-y-1.5 text-[10px] text-slate-300">
+                                    <li class="p-1.5 rounded bg-slate-900 border border-slate-800 flex items-start">
+                                        <i data-lucide="check-circle-2" class="w-3 h-3 text-sky-400 mr-1.5 mt-0.5 shrink-0"></i>
+                                        <span><strong>Step 1:</strong> Connect safe, read-only data pipeline from existing SAP ERP.</span>
+                                    </li>
+                                    <li class="p-1.5 rounded bg-slate-900 border border-slate-800 flex items-start">
+                                        <i data-lucide="check-circle-2" class="w-3 h-3 text-sky-400 mr-1.5 mt-0.5 shrink-0"></i>
+                                        <span><strong>Step 2:</strong> Ingest 3 years of historical sales, weather & holiday promo data.</span>
+                                    </li>
+                                    <li class="p-1.5 rounded bg-slate-900 border border-slate-800 flex items-start">
+                                        <i data-lucide="check-circle-2" class="w-3 h-3 text-sky-400 mr-1.5 mt-0.5 shrink-0"></i>
+                                        <span><strong>Step 3:</strong> Calibrate smart Indomie demand forecasting at Ota plant.</span>
+                                    </li>
+                                    <li class="p-1.5 rounded bg-slate-900 border border-slate-800 flex items-start">
+                                        <i data-lucide="check-circle-2" class="w-3 h-3 text-sky-400 mr-1.5 mt-0.5 shrink-0"></i>
+                                        <span><strong>Step 4:</strong> Conduct hands-on training for plant managers on AI forecast drivers.</span>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="mt-2 text-[10px] font-mono text-sky-400 text-center font-semibold bg-sky-950/50 py-1 rounded border border-sky-800">
+                                GOAL: Live Read-Only SAP Feed Working
+                            </div>
+                        </div>
+
+                        <div class="glass-card p-3.5 flex flex-col justify-between border-t-4 border-t-emerald-400">
+                            <div>
+                                <div class="flex items-center justify-between mb-1.5">
+                                    <span class="font-heading font-bold text-xs text-emerald-400">MONTH 2 (DAYS 31–60)</span>
+                                    <span class="text-[10px] font-mono text-slate-400 bg-slate-900 px-2 py-0.5 rounded">STEP 2</span>
+                                </div>
+                                <h3 class="font-bold text-xs text-white mb-2">Control Tower & Distribution Pilot</h3>
+                                <ul class="space-y-1.5 text-[10px] text-slate-300">
+                                    <li class="p-1.5 rounded bg-slate-900 border border-slate-800 flex items-start">
+                                        <i data-lucide="check-circle-2" class="w-3 h-3 text-emerald-400 mr-1.5 mt-0.5 shrink-0"></i>
+                                        <span><strong>Step 1:</strong> Launch Multipro distribution live map with Lekki Port API feed.</span>
+                                    </li>
+                                    <li class="p-1.5 rounded bg-slate-900 border border-slate-800 flex items-start">
+                                        <i data-lucide="check-circle-2" class="w-3 h-3 text-emerald-400 mr-1.5 mt-0.5 shrink-0"></i>
+                                        <span><strong>Step 2:</strong> Pilot vision-AI barcode scanning for forklifts at Ikeja depot.</span>
+                                    </li>
+                                    <li class="p-1.5 rounded bg-slate-900 border border-slate-800 flex items-start">
+                                        <i data-lucide="check-circle-2" class="w-3 h-3 text-emerald-400 mr-1.5 mt-0.5 shrink-0"></i>
+                                        <span><strong>Step 3:</strong> Onboard top 15 packaging suppliers to the lightweight SaaS portal.</span>
+                                    </li>
+                                    <li class="p-1.5 rounded bg-slate-900 border border-slate-800 flex items-start">
+                                        <i data-lucide="check-circle-2" class="w-3 h-3 text-emerald-400 mr-1.5 mt-0.5 shrink-0"></i>
+                                        <span><strong>Step 4:</strong> Test automated $25k port delay triage & truck re-routing.</span>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="mt-2 text-[10px] font-mono text-emerald-400 text-center font-semibold bg-emerald-950/50 py-1 rounded border border-emerald-800">
+                                GOAL: Live Distribution Control Tower Active
+                            </div>
+                        </div>
+
+                        <div class="glass-card p-3.5 flex flex-col justify-between border-t-4 border-t-purple-400">
+                            <div>
+                                <div class="flex items-center justify-between mb-1.5">
+                                    <span class="font-heading font-bold text-xs text-purple-400">MONTH 3 (DAYS 61–90)</span>
+                                    <span class="text-[10px] font-mono text-slate-400 bg-slate-900 px-2 py-0.5 rounded">STEP 3</span>
+                                </div>
+                                <h3 class="font-bold text-xs text-white mb-2">Group Expansion & C-Suite Review</h3>
+                                <ul class="space-y-1.5 text-[10px] text-slate-300">
+                                    <li class="p-1.5 rounded bg-slate-900 border border-slate-800 flex items-start">
+                                        <i data-lucide="check-circle-2" class="w-3 h-3 text-purple-400 mr-1.5 mt-0.5 shrink-0"></i>
+                                        <span><strong>Step 1:</strong> Enable auto-release of routine purchase orders under $25,000.</span>
+                                    </li>
+                                    <li class="p-1.5 rounded bg-slate-900 border border-slate-800 flex items-start">
+                                        <i data-lucide="check-circle-2" class="w-3 h-3 text-purple-400 mr-1.5 mt-0.5 shrink-0"></i>
+                                        <span><strong>Step 2:</strong> Expand system to Power Oil, Kellogg's, TG Arla, and CP-Tolaram.</span>
+                                    </li>
+                                    <li class="p-1.5 rounded bg-slate-900 border border-slate-800 flex items-start">
+                                        <i data-lucide="check-circle-2" class="w-3 h-3 text-purple-400 mr-1.5 mt-0.5 shrink-0"></i>
+                                        <span><strong>Step 3:</strong> Deploy van sales GPS route planner across 1,200+ Multipro vans.</span>
+                                    </li>
+                                    <li class="p-1.5 rounded bg-slate-900 border border-slate-800 flex items-start">
+                                        <i data-lucide="check-circle-2" class="w-3 h-3 text-purple-400 mr-1.5 mt-0.5 shrink-0"></i>
+                                        <span><strong>Step 4:</strong> Present 90-day ROI value scorecard report to CEO & Executive Board.</span>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="mt-2 text-[10px] font-mono text-purple-400 text-center font-semibold bg-purple-950/50 py-1 rounded border border-purple-800">
+                                GOAL: Full Scale Group-Wide Rollout
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="p-3 glass-card border-slate-700 bg-slate-900/95 flex items-center justify-between">
+                        <div class="flex items-center space-x-3 text-xs">
+                            <div class="p-2 rounded bg-amber-500/20 text-amber-400">
+                                <i data-lucide="shield" class="w-5 h-5"></i>
+                            </div>
+                            <div>
+                                <div class="font-bold text-white uppercase text-[11px] tracking-wide">HUMAN OVERVIEW & SAFETY GUARDRAILS</div>
+                                <div class="text-slate-300 text-[11px]">
+                                    • Human managers must manually sign off on any order over $25,000 • 1-Click instant switch back to normal manual mode anytime.
+                                </div>
+                            </div>
+                        </div>
+                        <span class="text-[10px] font-mono text-slate-400 bg-slate-950 px-2.5 py-1 rounded border border-slate-800">
+                            100% SAFE OPERATIONAL CONTROL
+                        </span>
+                    </div>
+                </div>
+
+                <!-- ==================== SLIDE 7: C-SUITE KPI SCORECARD & BUSINESS IMPACT MATRIX ==================== -->
+                <div class="slide-content hidden w-full h-full flex flex-col justify-between" id="slide-7">
+                    <div>
+                        <div class="flex items-center justify-between mb-1">
+                            <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-emerald-950/60 border border-emerald-800/40 text-brand-emerald text-xs font-mono">
+                                <i data-lucide="award" class="w-3.5 h-3.5"></i>
+                                <span>SUMMARY SCORECARD • BEFORE VS AFTER COMPARISON</span>
+                            </div>
+                            <span class="text-xs font-mono text-slate-400">CLEAR IMPACT METRICS</span>
+                        </div>
+                        <h2 class="font-heading font-bold text-2xl tracking-tight text-white">
+                            Expected Results & Performance Scorecard
+                        </h2>
+                        <p class="text-xs text-slate-300 mt-1">
+                            A clear look at where Tolaram stands today versus what Metayb AI will achieve across our supply chain.
+                        </p>
+                    </div>
+
+                    <div class="glass-card overflow-hidden my-2 border-slate-800">
+                        <table class="w-full text-left text-xs">
+                            <thead class="bg-slate-900/90 text-slate-400 font-mono text-[10px] uppercase border-b border-slate-800">
+                                <tr>
+                                    <th class="p-2.5">Key Operational Area</th>
+                                    <th class="p-2.5">Target Business / Brand</th>
+                                    <th class="p-2.5 text-center">Where We Are Today</th>
+                                    <th class="p-2.5 text-center text-brand-cyan">Our AI Target</th>
+                                    <th class="p-2.5 text-right text-brand-emerald">The Real-World Result</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-800 text-slate-300">
+                                <tr class="hover:bg-slate-900/50">
+                                    <td class="p-2.5 font-semibold text-white flex items-center">
+                                        <i data-lucide="target" class="w-3.5 h-3.5 text-sky-400 mr-2"></i> Demand Forecast Precision
+                                    </td>
+                                    <td class="p-2.5 text-slate-400">Dufil Prima Foods (Indomie)</td>
+                                    <td class="p-2.5 text-center font-mono text-slate-400">72.0% Accuracy</td>
+                                    <td class="p-2.5 text-center font-mono font-bold text-brand-cyan">&gt;94.2% Accuracy</td>
+                                    <td class="p-2.5 text-right font-mono font-bold text-brand-emerald">+22.2% Better Precision</td>
+                                </tr>
+                                <tr class="hover:bg-slate-900/50">
+                                    <td class="p-2.5 font-semibold text-white flex items-center">
+                                        <i data-lucide="boxes" class="w-3.5 h-3.5 text-emerald-400 mr-2"></i> Warehouse Stock Waiting Time
+                                    </td>
+                                    <td class="p-2.5 text-slate-400">Multipro MCPL & Group Warehouses</td>
+                                    <td class="p-2.5 text-center font-mono text-slate-400">62 Days Sitting</td>
+                                    <td class="p-2.5 text-center font-mono font-bold text-brand-cyan">40 Days Sitting</td>
+                                    <td class="p-2.5 text-right font-mono font-bold text-brand-emerald">Freed $30M–$50M Cash</td>
+                                </tr>
+                                <tr class="hover:bg-slate-900/50">
+                                    <td class="p-2.5 font-semibold text-white flex items-center">
+                                        <i data-lucide="clock" class="w-3.5 h-3.5 text-amber-400 mr-2"></i> Packaging Material Lead Time
+                                    </td>
+                                    <td class="p-2.5 text-slate-400">Power Oil & Kellogg's Packaging</td>
+                                    <td class="p-2.5 text-center font-mono text-slate-400">30 Days Waiting</td>
+                                    <td class="p-2.5 text-center font-mono font-bold text-brand-cyan">7 Days Waiting</td>
+                                    <td class="p-2.5 text-right font-mono font-bold text-brand-emerald">76% Faster Delivery</td>
+                                </tr>
+                                <tr class="hover:bg-slate-900/50">
+                                    <td class="p-2.5 font-semibold text-white flex items-center">
+                                        <i data-lucide="truck" class="w-3.5 h-3.5 text-purple-400 mr-2"></i> Truck Haulage Unit Costs
+                                    </td>
+                                    <td class="p-2.5 text-slate-400">TG Arla & CP-Tolaram Transport</td>
+                                    <td class="p-2.5 text-center font-mono text-slate-400">High Spot Market Rates</td>
+                                    <td class="p-2.5 text-center font-mono font-bold text-brand-cyan">-24.0% Cost Reduction</td>
+                                    <td class="p-2.5 text-right font-mono font-bold text-brand-emerald">$8.4M Saved on Freight</td>
+                                </tr>
+                                <tr class="hover:bg-slate-900/50">
+                                    <td class="p-2.5 font-semibold text-white flex items-center">
+                                        <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-sky-400 mr-2"></i> On-Time In-Full Delivery Rate
+                                    </td>
+                                    <td class="p-2.5 text-slate-400">Entire Tolaram FMCG Group</td>
+                                    <td class="p-2.5 text-center font-mono text-slate-400">78.5% Successful</td>
+                                    <td class="p-2.5 text-center font-mono font-bold text-brand-cyan">&gt;96.0% Successful</td>
+                                    <td class="p-2.5 text-right font-mono font-bold text-brand-emerald">Stores Never Out of Stock</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="grid grid-cols-3 gap-4 my-1">
+                        <div class="p-3 rounded bg-emerald-950/40 border border-emerald-500/40 flex items-center justify-between">
+                            <div>
+                                <div class="text-[10px] font-mono text-slate-400">TOTAL CASH FREED FROM STOCK</div>
+                                <div class="font-heading font-bold text-xl text-brand-emerald">$30M – $50M</div>
+                            </div>
+                            <i data-lucide="dollar-sign" class="w-8 h-8 text-emerald-400 opacity-60"></i>
+                        </div>
+
+                        <div class="p-3 rounded bg-sky-950/40 border border-sky-500/40 flex items-center justify-between">
+                            <div>
+                                <div class="text-[10px] font-mono text-slate-400">ANNUAL PROFIT INCREASE</div>
+                                <div class="font-heading font-bold text-xl text-brand-cyan">~$28 Million / yr</div>
+                            </div>
+                            <i data-lucide="trending-up" class="w-8 h-8 text-sky-400 opacity-60"></i>
+                        </div>
+
+                        <div class="p-3 rounded bg-purple-950/40 border border-purple-500/40 flex items-center justify-between">
+                            <div>
+                                <div class="text-[10px] font-mono text-slate-400">PROJECT PAYBACK PERIOD</div>
+                                <div class="font-heading font-bold text-xl text-purple-300">&lt; 4.5 Months</div>
+                            </div>
+                            <i data-lucide="clock" class="w-8 h-8 text-purple-400 opacity-60"></i>
+                        </div>
+                    </div>
+
+                    <div class="p-2.5 rounded bg-gradient-to-r from-sky-950 via-slate-900 to-emerald-950 border border-sky-700/50 flex items-center justify-between text-xs">
+                        <div class="flex items-center space-x-2">
+                            <i data-lucide="check-square" class="w-4 h-4 text-brand-cyan"></i>
+                            <span class="text-white font-medium">RECOMMENDED FIRST STEP: Approve Month 1 Pilot ($450k Budget) for Dufil & Multipro.</span>
+                        </div>
+                        <span class="font-mono text-brand-emerald font-bold text-[11px]">READY FOR IMMEDIATE ROLLOUT</span>
+                    </div>
+                </div>
+
+            </main>
+
+            <!-- Footer Bar -->
+            <footer class="h-10 border-t border-brand-border px-6 flex items-center justify-between shrink-0 bg-[#050914] text-xs text-slate-400 z-20">
+                <div class="flex items-center space-x-4">
+                    <span class="font-mono text-[10px] text-slate-400">METAYB INNOVATION ARM • TOLARAM GROUP</span>
+                    <span class="text-slate-700">|</span>
+                    <span class="text-[11px] text-slate-400">CLEAR & ACCESSIBLE STRATEGY PROPOSAL</span>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    <div id="overviewModal" class="fixed inset-0 z-50 modal-backdrop hidden flex items-center justify-center p-6">
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-6 max-w-5xl w-full shadow-2xl">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="font-heading font-bold text-lg text-white">Presentation Slide Overview</h3>
+                <button onclick="toggleOverview()" class="text-slate-400 hover:text-white p-1">
+                    <i data-lucide="x" class="w-6 h-6"></i>
+                </button>
+            </div>
+            <div class="grid grid-cols-4 gap-3" id="overviewGrid">
+                <!-- Javascript injects slide thumbnails -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentSlide = 1;
+        const totalSlides = 7;
+
+        const slideTitles = [
+            "Strategic Vision & Plain-English Business Case",
+            "Target AI System Architecture (4 Simple Layers)",
+            "Smarter Demand Forecasting & Fast Packaging Procurement",
+            "Multipro Distribution Control Tower & Live Map",
+            "3 Practical AI Applications Solving Daily Operations",
+            "Clear 90-Day Rollout Plan & Safety Rules",
+            "Expected Results & Performance Scorecard"
+        ];
+
+        window.onload = function() {
+            lucide.createIcons();
+            scaleCanvas();
+            window.addEventListener('resize', scaleCanvas);
+            buildOverviewGrid();
+            updateCalculator();
+        };
+
+        function scaleCanvas() {
+            const canvas = document.getElementById('slideCanvas');
+            const stage = document.getElementById('stageContainer');
+            const scaleX = (stage.clientWidth - 32) / 1280;
+            const scaleY = (stage.clientHeight - 32) / 720;
+            const scale = Math.min(scaleX, scaleY, 1.25);
+            canvas.style.transform = `scale(${scale})`;
+        }
+
+        function showSlide(index) {
+            if (index < 1 || index > totalSlides) return;
+            
+            document.getElementById(`slide-${currentSlide}`).classList.add('hidden');
+            currentSlide = index;
+            document.getElementById(`slide-${currentSlide}`).classList.remove('hidden');
+            
+            document.getElementById('slideIndicator').innerText = `${String(currentSlide).padStart(2, '0')} / ${String(totalSlides).padStart(2, '0')}`;
+            document.getElementById('headerSlideTitle').innerText = slideTitles[currentSlide - 1];
+
+            lucide.createIcons();
+        }
+
+        function nextSlide() { if (currentSlide < totalSlides) showSlide(currentSlide + 1); }
+        function prevSlide() { if (currentSlide > 1) showSlide(currentSlide - 1); }
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowRight' || e.key === 'Space') nextSlide();
+            else if (e.key === 'ArrowLeft') prevSlide();
+            else if (e.key === 'f' || e.key === 'F') toggleFullscreen();
+            else if (e.key === 'o' || e.key === 'O') toggleOverview();
+            else if (e.key === 'Escape') {
+                document.getElementById('overviewModal').classList.add('hidden');
+            }
+        });
+
+        function buildOverviewGrid() {
+            const grid = document.getElementById('overviewGrid');
+            grid.innerHTML = '';
+            for (let i = 1; i <= totalSlides; i++) {
+                const card = document.createElement('div');
+                card.className = `p-3 rounded-lg border cursor-pointer transition-all ${i === currentSlide ? 'border-brand-cyan bg-sky-950/40' : 'border-slate-800 bg-slate-950 hover:border-slate-700'}`;
+                card.onclick = function() {
+                    showSlide(i);
+                    toggleOverview();
+                };
+                card.innerHTML = `
+                    <div class="text-[10px] font-mono text-brand-cyan mb-1">SLIDE 0${i}</div>
+                    <div class="font-heading font-bold text-xs text-white line-clamp-2">${slideTitles[i-1]}</div>
+                `;
+                grid.appendChild(card);
+            }
+        }
+
+        function toggleOverview() {
+            const modal = document.getElementById('overviewModal');
+            modal.classList.toggle('hidden');
+            if (!modal.classList.contains('hidden')) buildOverviewGrid();
+        }
+
+        function toggleFullscreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(() => {});
+            } else {
+                if (document.exitFullscreen) document.exitFullscreen();
+            }
+        }
+
+        function updateCalculator() {
+            const rev = parseFloat(document.getElementById('revSlider').value);
+            const dio = parseFloat(document.getElementById('dioSlider').value);
+
+            document.getElementById('revVal').innerText = `$${rev} Million`;
+            document.getElementById('dioVal').innerText = `${dio} Days`;
+
+            const targetDio = 40;
+            const freedCap = Math.max(0, rev * ((dio - targetDio) / 365));
+            const ebitdaLift = rev * 0.0375;
+
+            document.getElementById('calcCap').innerText = `$${freedCap.toFixed(1)}M`;
+            document.getElementById('calcEbitda').innerText = `+$${ebitdaLift.toFixed(1)}M`;
+        }
+
+        function runArchSimulation() {
+            const statusText = document.getElementById('archStatusText');
+            statusText.innerText = "DATA FLOW TEST: [1. SAP Data Sync] -> [2. Smart Forecast Brain] -> [3. Auto-Order Action] -> [4. Live Control Dashboard]";
+            statusText.className = "text-emerald-400 font-mono animate-pulse";
+            setTimeout(() => {
+                statusText.innerText = "TEST PASSED: Real-time data sync active. 100% safe overlay with ZERO risk to SAP core.";
+                statusText.className = "text-brand-emerald font-mono font-semibold";
+            }, 2500);
+        }
+
+        function triggerAutoTriage() {
+            const alertText = document.getElementById('simAlertDetail');
+            const lekkiStatus = document.getElementById('lekkiStatus');
+            const triageBtn = document.getElementById('triageBtn');
+
+            alertText.innerText = "AUTOMATED REROUTE COMPLETED: 14 wheat containers safely redirected to nearby secondary yard. $42,000 demurrage saved!";
+            alertText.className = "text-brand-emerald text-[11px] font-semibold";
+            lekkiStatus.innerText = "Containers Redirected";
+            lekkiStatus.className = "text-[9px] font-mono text-emerald-400 mt-0.5";
+            triageBtn.innerText = "RESOLVED ($42K SAVED)";
+            triageBtn.className = "px-3 py-1.5 rounded bg-emerald-500 text-slate-950 font-bold text-xs font-mono disabled";
+        }
+    </script>
+</body>
+</html>
